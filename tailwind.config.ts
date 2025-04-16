@@ -28,6 +28,13 @@ export default {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
+                grocery: {
+                    green: '#10b981',
+                    red: '#f87171',
+                    bg: '#f9fafb',
+                    text: '#1f2937',
+                    lightGreen: '#d1fae5'
+                },
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
