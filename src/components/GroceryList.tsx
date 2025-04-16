@@ -1,8 +1,10 @@
 
 import { useState, useRef, FormEvent, useEffect } from "react";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, ShoppingBag } from "lucide-react";
 import GroceryItem from "./GroceryItem";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface GroceryItem {
   id: number;
@@ -58,57 +60,60 @@ const GroceryList = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <form onSubmit={handleAddItem} className="flex gap-2 mb-6">
-        <input
-          ref={inputRef}
-          type="text"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-          placeholder="Adicionar item à lista..."
-          className="flex-grow p-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-grocery-green focus:border-transparent"
-          autoComplete="off"
-        />
-        <button
-          type="submit"
-          disabled={!newItem.trim()}
-          className={cn(
-            "flex items-center justify-center px-4 rounded-lg transition-colors",
-            newItem.trim()
-              ? "bg-grocery-green text-white hover:bg-green-600"
-              : "bg-gray-200 text-gray-400 cursor-not-allowed"
-          )}
-        >
-          <PlusCircle size={20} className="mr-1" />
-          <span>Adicionar</span>
-        </button>
-      </form>
+    <div className="w-full max-w-lg mx-auto">
+      <div className="bg-white rounded-2xl shadow-md p-6 md:p-8">
+        <form onSubmit={handleAddItem} className="flex gap-3 mb-8">
+          <Input
+            ref={inputRef}
+            type="text"
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
+            placeholder="Adicionar item à lista..."
+            className="flex-grow border-gray-200 rounded-xl focus:ring-grocery-green focus:border-grocery-green"
+            autoComplete="off"
+          />
+          <Button
+            type="submit"
+            disabled={!newItem.trim()}
+            className={cn(
+              "gap-2 px-5 rounded-xl transition-all duration-200 transform hover:scale-105",
+              newItem.trim()
+                ? "bg-grocery-green hover:bg-green-600"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            )}
+          >
+            <PlusCircle size={18} />
+            <span>Adicionar</span>
+          </Button>
+        </form>
 
-      <div className="space-y-2">
-        {items.length === 0 ? (
-          <div className="text-center p-6 bg-white rounded-lg">
-            <p className="text-gray-500">Sua lista está vazia. Adicione itens acima!</p>
-          </div>
-        ) : (
-          <>
-            <div className="flex justify-between text-sm mb-2 px-2">
-              <span>Total: {items.length} itens</span>
-              <span>
-                Concluídos: {items.filter((item) => item.completed).length}
-              </span>
+        <div className="space-y-3">
+          {items.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-10 bg-gray-50 rounded-xl border border-gray-100">
+              <ShoppingBag size={48} className="text-gray-300 mb-4" />
+              <p className="text-gray-500 text-center">Sua lista está vazia. Adicione itens acima!</p>
             </div>
-            {items.map((item) => (
-              <GroceryItem
-                key={item.id}
-                id={item.id}
-                text={item.text}
-                completed={item.completed}
-                onComplete={handleCompleteItem}
-                onDelete={handleDeleteItem}
-              />
-            ))}
-          </>
-        )}
+          ) : (
+            <>
+              <div className="flex justify-between text-sm mb-3 px-2 text-gray-600">
+                <span className="font-medium">Total: {items.length} itens</span>
+                <span className="font-medium">
+                  Concluídos: {items.filter((item) => item.completed).length}
+                </span>
+              </div>
+              {items.map((item) => (
+                <GroceryItem
+                  key={item.id}
+                  id={item.id}
+                  text={item.text}
+                  completed={item.completed}
+                  onComplete={handleCompleteItem}
+                  onDelete={handleDeleteItem}
+                />
+              ))}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
